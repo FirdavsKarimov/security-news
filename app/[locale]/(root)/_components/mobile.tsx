@@ -14,6 +14,7 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { fullNavLinks, navLinks } from "@/constants";
@@ -50,10 +51,9 @@ const Mobile = () => {
 
       <SheetContent side={"left"}>
         <SheetHeader>
+          <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
           {/* Logo */}
           <Logo />
-
-          <Separator />
 
           <div className="mt-4 flex flex-col space-y-4">
             {/* Static navigation links */}

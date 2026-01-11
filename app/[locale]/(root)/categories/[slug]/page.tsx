@@ -2,7 +2,7 @@
 
 import { Dot, Home, Layers } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import NewsCard from "@/components/cards/news-card";
 import {
@@ -17,11 +17,11 @@ import { getCategorieNews } from "@/service/categorie.service";
 import { ICategorieNews } from "@/types/service-type";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const CategoriesPage = ({ params }: Props) => {
-  const { slug } = params;
+  const { slug } = use(params);
   const [categorie, setCategorie] = useState<ICategorieNews | null>(null);
   const [loading, setLoading] = useState(true);
 

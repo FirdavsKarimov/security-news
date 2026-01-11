@@ -261,3 +261,200 @@ export async function checkApiHealth(): Promise<boolean> {
     return false;
   }
 }
+
+// ===========================================
+// Employee API Functions
+// ===========================================
+
+interface BackendEmployee {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  photo: string;
+  birthDate: string;
+  position?: string;
+  isActive: boolean;
+}
+
+interface IEmployee {
+  id: string;
+  firstName: string;
+  lastName: string;
+  photo: string;
+  birthDate: string;
+  position?: string;
+  isActive: boolean;
+}
+
+function transformEmployeeToFrontend(employee: BackendEmployee): IEmployee {
+  return {
+    id: employee._id,
+    firstName: employee.firstName,
+    lastName: employee.lastName,
+    photo: employee.photo.startsWith('http') ? employee.photo : `${API_URL.replace('/api', '')}${employee.photo}`,
+    birthDate: employee.birthDate,
+    position: employee.position,
+    isActive: employee.isActive,
+  };
+}
+
+/**
+ * Fetch all employees
+ */
+export async function fetchEmployees(): Promise<IEmployee[]> {
+  const response = await fetch(`${API_URL}/employees`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch employees: ${response.statusText}`);
+  }
+
+  const result: BackendResponse<BackendEmployee[]> = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.error || "Failed to fetch employees");
+  }
+
+  return result.data.map(transformEmployeeToFrontend);
+}
+
+/**
+ * Fetch today's birthdays
+ */
+export async function fetchTodayBirthdays(): Promise<IEmployee[]> {
+  const response = await fetch(`${API_URL}/employees/today-birthdays`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch today birthdays: ${response.statusText}`);
+  }
+
+  const result: BackendResponse<BackendEmployee[]> = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.error || "Failed to fetch today birthdays");
+  }
+
+  return result.data.map(transformEmployeeToFrontend);
+}
+
+// ===========================================
+// Honorary Employee API Functions
+// ===========================================
+
+interface BackendHonoraryEmployee {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  photo: string;
+  position?: string;
+  startDate: string;
+  endDate: string;
+  workPeriod?: string;
+  isActive: boolean;
+}
+
+interface IHonoraryEmployee {
+  id: string;
+  firstName: string;
+  lastName: string;
+  photo: string;
+  position?: string;
+  startDate: string;
+  endDate: string;
+  workPeriod?: string;
+  isActive: boolean;
+}
+
+function transformHonoraryEmployeeToFrontend(employee: BackendHonoraryEmployee): IHonoraryEmployee {
+  return {
+    id: employee._id,
+    firstName: employee.firstName,
+    lastName: employee.lastName,
+    photo: employee.photo.startsWith('http') ? employee.photo : `${API_URL.replace('/api', '')}${employee.photo}`,
+    position: employee.position,
+    startDate: employee.startDate,
+    endDate: employee.endDate,
+    workPeriod: employee.workPeriod,
+    isActive: employee.isActive,
+  };
+}
+
+/**
+ * Fetch all honorary employees
+ */
+export async function fetchHonoraryEmployees(): Promise<IHonoraryEmployee[]> {
+  const response = await fetch(`${API_URL}/honorary-employees`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch honorary employees: ${response.statusText}`);
+  }
+
+  const result: BackendResponse<BackendHonoraryEmployee[]> = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.error || "Failed to fetch honorary employees");
+  }
+
+  return result.data.map(transformHonoraryEmployeeToFrontend);
+}
+
+// ===========================================
+// Event API Functions
+// ===========================================
+
+interface BackendEvent {
+  _id: string;
+  title: string;
+  photos: string[];
+  description?: string;
+  eventDate: string;
+  isActive: boolean;
+}
+
+interface IEvent {
+  id: string;
+  title: string;
+  photos: string[];
+  description?: string;
+  eventDate: string;
+  isActive: boolean;
+}
+
+function transformEventToFrontend(event: BackendEvent): IEvent {
+  return {
+    id: event._id,
+    title: event.title,
+    photos: event.photos.map(photo =>
+      photo.startsWith('http') ? photo : `${API_URL.replace('/api', '')}${photo}`
+    ),
+    description: event.description,
+    eventDate: event.eventDate,
+    isActive: event.isActive,
+  };
+}
+
+/**
+ * Fetch all events
+ */
+export async function fetchEvents(): Promise<IEvent[]> {
+  const response = await fetch(`${API_URL}/events`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch events: ${response.statusText}`);
+  }
+
+  const result: BackendResponse<BackendEvent[]> = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.error || "Failed to fetch events");
+  }
+
+  return result.data.map(transformEventToFrontend);
+}

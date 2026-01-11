@@ -48,3 +48,35 @@ export interface ICategorieNews {
   slug: string;
   news: INews[];
 }
+
+// Employee interfaces
+export interface IEmployee {
+  id: string;
+  firstName: string;
+  lastName: string;
+  photo: string;
+  birthDate: string;
+  position?: string;
+  isActive: boolean;
+}
+
+export interface IHonoraryEmployee {
+  id: string;
+  firstName: string;
+  lastName: string;
+  photo: string;
+  position?: string;
+  startDate: string;
+  endDate: string;
+  workPeriod?: string;
+  isActive: boolean;
+}
+
+export interface IEvent {
+  id: string;
+  title: string;
+  photos: string[];
+  description?: string;
+  eventDate: string;
+  isActive: boolean;
+}

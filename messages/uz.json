@@ -36,5 +36,20 @@
     "title": "Sahifa topilmadi",
     "description": "Kechirasiz, siz qidirayotgan sahifa mavjud emas yoki ko'chirilgan bo'lishi mumkin.",
     "backHome": "Bosh sahifaga qaytish"
+  },
+
+  "employees": {
+    "todayBirthdays": "Bugungi tug'ilgan kunlar",
+    "noBirthdays": "Bugun hech kimning tug'ilgan kuni yo'q",
+    "happyBirthday": "Tug'ilgan kuningiz muborak!"
+  },
+
+  "honoraryEmployees": {
+    "title": "Faxriy xodimlar",
+    "workedYears": "yillar"
+  },
+
+  "events": {
+    "title": "Ishxona yangiliklari va tadbirlari"
   }
 }
