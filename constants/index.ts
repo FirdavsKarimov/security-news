@@ -31,23 +31,33 @@ export const instructorNavLinks = [
     icon: GaugeCircle,
   },
   {
-    label: "My Courses",
+    label: "Yangiliklar",
     route: "/admin-secruty/my-courses",
     icon: MonitorPlay,
   },
   {
-    label: "Create Course",
+    label: "Yangilik yaratish",
     route: "/admin-secruty/create-course",
     icon: FileCode,
   },
   {
-    label: "Reviews",
-    route: "/admin-secruty/reviews",
+    label: "Xodimlar",
+    route: "/admin-secruty/employees",
     icon: MessageSquareMore,
   },
   {
-    label: "Settings",
-    route: "/admin-secruty/settings",
+    label: "Faxriy xodimlar",
+    route: "/admin-secruty/honorary-employees",
+    icon: BookCheck,
+  },
+  {
+    label: "Tadbirlar",
+    route: "/admin-secruty/events",
+    icon: MapPin,
+  },
+  {
+    label: "Display sahifa",
+    route: "/display",
     icon: Settings2,
   },
 ];
