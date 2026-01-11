@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        hostname: "localhost",
+      },
+      {
         hostname: "eu-west-2.graphassets.com",
       },
       {

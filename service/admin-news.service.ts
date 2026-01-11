@@ -188,7 +188,12 @@ export async function uploadImage(
         const data = await response.json();
 
         if (data.success && data.data) {
-            return { success: true, url: data.data.url };
+            // Return full URL with backend base path
+            const baseUrl = API_URL.replace('/api', '');
+            const imageUrl = data.data.url.startsWith('http')
+                ? data.data.url
+                : `${baseUrl}${data.data.url}`;
+            return { success: true, url: imageUrl };
         }
 
         return { success: false, error: data.error || "Upload failed" };

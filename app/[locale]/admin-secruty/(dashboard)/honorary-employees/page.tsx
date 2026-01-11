@@ -31,6 +31,15 @@ import {
     updateHonoraryEmployee,
 } from "@/service/admin.service";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5001';
+
+const getImageUrl = (photo: string) => {
+    if (!photo) return "https://via.placeholder.com/48?text=👤";
+    if (photo.startsWith("http")) return photo;
+    if (photo.startsWith("blob:")) return photo;
+    return `${API_BASE}${photo}`;
+};
+
 const HonoraryEmployeesPage = () => {
     const router = useRouter();
     const locale = useLocale();
@@ -200,7 +209,7 @@ const HonoraryEmployeesPage = () => {
                                 <TableRow key={emp._id}>
                                     <TableCell>
                                         <img
-                                            src={emp.photo.startsWith("http") ? emp.photo : `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '')}${emp.photo}`}
+                                            src={getImageUrl(emp.photo)}
                                             alt={`${emp.firstName}`}
                                             className="h-12 w-12 rounded-full object-cover"
                                             onError={(e) => {
@@ -316,9 +325,12 @@ const HonoraryEmployeesPage = () => {
                                 />
                                 {photoPreview && (
                                     <img
-                                        src={photoPreview}
+                                        src={getImageUrl(photoPreview)}
                                         alt="Preview"
                                         className="h-20 w-20 rounded-lg object-cover mt-2"
+                                        onError={(e) => {
+                                            e.currentTarget.src = "https://via.placeholder.com/80?text=👤";
+                                        }}
                                     />
                                 )}
                             </div>

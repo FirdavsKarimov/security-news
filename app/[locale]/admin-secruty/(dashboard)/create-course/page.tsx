@@ -234,10 +234,14 @@ const CreateCoursePage = () => {
                         </div>
                         {imageUrl && (
                             <div className="mt-2">
+                                <p className="text-xs text-muted-foreground mb-1">Preview</p>
                                 <img
-                                    src={imageUrl}
+                                    src={imageUrl.startsWith('http') ? imageUrl : `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '')}${imageUrl}`}
                                     alt="Preview"
                                     className="h-32 w-auto rounded-lg object-cover"
+                                    onError={(e) => {
+                                        e.currentTarget.src = "https://via.placeholder.com/128?text=📷";
+                                    }}
                                 />
                             </div>
                         )}
