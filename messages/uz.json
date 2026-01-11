@@ -30,5 +30,11 @@
     "pages": "Sahifalar",
     "contacts": "Aloqa",
     "copyright": "Barcha huquqlar himoyalangan"
+  },
+
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "description": "Kechirasiz, siz qidirayotgan sahifa mavjud emas yoki ko'chirilgan bo'lishi mumkin.",
+    "backHome": "Bosh sahifaga qaytish"
   }
 }

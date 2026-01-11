@@ -1,67 +1,26 @@
-// eslint-disable-next-line import/no-named-as-default
-import request, { gql } from "graphql-request";
+/**
+ * Category Service - Fetches category data from backend API
+ * Updated to use REST API instead of GraphQL
+ */
+
 import { cache } from "react";
 
 import { ICategorie, ICategorieNews } from "@/types/service-type";
+import { fetchCategories, fetchCategoryWithNews } from "./api.service";
 
-const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!;
-
-export const getCategories = async () => {
-  const query = gql`
-    query Categories {
-      categories {
-        id
-        slug
-        title
-        news {
-          id
-        }
-      }
-    }
-  `;
-
-  const result = await request<{ categories: ICategorie[] }>(graphqlAPI, query);
-  return result.categories;
+/**
+ * Get all active categories
+ */
+export const getCategories = async (): Promise<ICategorie[]> => {
+  return await fetchCategories();
 };
 
-export const getCategorieNews = cache(async (slug: string) => {
-  const query = gql`
-    query CategorieNews($slug: String!) {
-      categories(where: { slug: $slug }) {
-        id
-        title
-        slug
-        news {
-          id
-          titleKr
-          titleUz
-          slug
-          descriptionKr {
-            html
-          }
-          descriptionUz {
-            html
-          }
-          image {
-            url
-          }
-          createdAt
-          categories {
-            ... on Categorie {
-              title
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const result = await request<{ categories: ICategorieNews[] }>(
-    graphqlAPI,
-    query,
-    {
-      slug,
-    },
-  );
-  return result.categories[0];
-});
+/**
+ * Get category with its news by slug
+ * Cached with React cache for deduplication
+ */
+export const getCategorieNews = cache(
+  async (slug: string): Promise<ICategorieNews | null> => {
+    return await fetchCategoryWithNews(slug);
+  }
+);

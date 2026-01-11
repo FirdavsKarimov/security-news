@@ -42,7 +42,7 @@ function Footer() {
               {navLinks.map((item) => (
                 <Link
                   key={item.route}
-                  href={`/${item.route}`}
+                  href={`/${locale}/${item.route}`}
                   className="hover:text-primary text-muted-foreground font-medium transition-all hover:underline"
                 >
                   {t(`NavbarLink.${item.name}`)}
@@ -55,7 +55,7 @@ function Footer() {
             <h1 className="font-spaceGrotesk text-3xl">{t("categories")}</h1>
             <div className="flex flex-wrap gap-1 pt-6">
               {categories.slice(-5).map((item) => (
-                <Link key={item.slug} href={`/${locale}/category/${item.slug}`}>
+                <Link key={item.slug} href={`/${locale}/categories/${item.slug}`}>
                   <Badge className="hover:bg-primary/75 cursor-pointer px-3 py-1 text-white capitalize transition-all">
                     {item.title}
                   </Badge>

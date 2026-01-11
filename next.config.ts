@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
       {
         hostname: "eu-west-2.graphassets.com",
       },
+      {
+        hostname: "images.unsplash.com",
+      },
+      {
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

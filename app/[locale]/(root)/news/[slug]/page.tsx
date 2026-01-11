@@ -3,6 +3,7 @@ import parse from "html-react-parser";
 import { CalendarDays, Clock, Minus, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +25,10 @@ const Page = async ({ params }: Props) => {
   const locale = await getLocale();
 
   const blog = await getBlog(slug);
+
+  if (!blog) {
+    notFound();
+  }
 
   return (
     <div className="mx-auto max-w-6xl pt-[15vh] max-md:px-2">
