@@ -268,6 +268,74 @@ export async function deleteEvent(id: string): Promise<{ success: boolean; error
 }
 
 // ================================
+// Announcement Types & Functions
+// ================================
+
+export interface Announcement {
+    _id: string;
+    title: string;
+    content?: string;
+    isActive: boolean;
+    expiresAt?: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface AnnouncementListResponse {
+    success: boolean;
+    count?: number;
+    total?: number;
+    data?: Announcement[];
+    error?: string;
+}
+
+export async function getAnnouncements(page = 1, limit = 20): Promise<AnnouncementListResponse> {
+    try {
+        const response = await fetch(`${API_URL}/announcements?page=${page}&limit=${limit}&active=false`);
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching announcements:", error);
+        return { success: false, error: "Failed to fetch announcements" };
+    }
+}
+
+export async function createAnnouncement(data: { title: string; content?: string; expiresAt?: string }): Promise<{ success: boolean; data?: Announcement; error?: string }> {
+    try {
+        const response = await authFetch(`${API_URL}/announcements`, {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+        return await response.json();
+    } catch (error) {
+        console.error("Error creating announcement:", error);
+        return { success: false, error: "Failed to create announcement" };
+    }
+}
+
+export async function updateAnnouncement(id: string, data: { title?: string; content?: string; isActive?: boolean; expiresAt?: string | null }): Promise<{ success: boolean; data?: Announcement; error?: string }> {
+    try {
+        const response = await authFetch(`${API_URL}/announcements/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(data),
+        });
+        return await response.json();
+    } catch (error) {
+        console.error("Error updating announcement:", error);
+        return { success: false, error: "Failed to update announcement" };
+    }
+}
+
+export async function deleteAnnouncement(id: string): Promise<{ success: boolean; error?: string }> {
+    try {
+        const response = await authFetch(`${API_URL}/announcements/${id}`, { method: "DELETE" });
+        return await response.json();
+    } catch (error) {
+        console.error("Error deleting announcement:", error);
+        return { success: false, error: "Failed to delete announcement" };
+    }
+}
+
+// ================================
 // Dashboard Stats
 // ================================
 
@@ -277,22 +345,25 @@ export async function getFullDashboardStats(): Promise<{
     employeeCount: number;
     honoraryEmployeeCount: number;
     eventCount: number;
+    announcementCount: number;
 }> {
     try {
-        const [newsRes, catRes, empRes, honRes, evtRes] = await Promise.all([
+        const [newsRes, catRes, empRes, honRes, evtRes, annRes] = await Promise.all([
             fetch(`${API_URL}/news?limit=1`),
             fetch(`${API_URL}/categories`),
             fetch(`${API_URL}/employees?limit=1`),
             fetch(`${API_URL}/honorary-employees?limit=1`),
             fetch(`${API_URL}/events?limit=1`),
+            fetch(`${API_URL}/announcements?limit=1`),
         ]);
 
-        const [newsData, catData, empData, honData, evtData] = await Promise.all([
+        const [newsData, catData, empData, honData, evtData, annData] = await Promise.all([
             newsRes.json(),
             catRes.json(),
             empRes.json(),
             honRes.json(),
             evtRes.json(),
+            annRes.json(),
         ]);
 
         return {
@@ -301,9 +372,11 @@ export async function getFullDashboardStats(): Promise<{
             employeeCount: empData.pagination?.totalItems || 0,
             honoraryEmployeeCount: honData.pagination?.totalItems || 0,
             eventCount: evtData.pagination?.totalItems || 0,
+            announcementCount: annData.total || 0,
         };
     } catch (error) {
         console.error("Error fetching dashboard stats:", error);
-        return { newsCount: 0, categoryCount: 0, employeeCount: 0, honoraryEmployeeCount: 0, eventCount: 0 };
+        return { newsCount: 0, categoryCount: 0, employeeCount: 0, honoraryEmployeeCount: 0, eventCount: 0, announcementCount: 0 };
     }
 }
+

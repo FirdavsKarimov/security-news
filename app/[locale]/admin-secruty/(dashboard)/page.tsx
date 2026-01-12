@@ -6,6 +6,7 @@ import {
   FileText,
   Layers,
   LogOut,
+  Megaphone,
   Newspaper,
   TrendingUp,
   Users,
@@ -36,6 +37,7 @@ const DashboardPage = () => {
     employeeCount: 0,
     honoraryEmployeeCount: 0,
     eventCount: 0,
+    announcementCount: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -135,6 +137,12 @@ const DashboardPage = () => {
           icon={CalendarDays}
           color="bg-indigo-500"
         />
+        <StatsCard
+          title="E'lonlar"
+          value={stats.announcementCount}
+          icon={Megaphone}
+          color="bg-purple-500"
+        />
       </div>
 
       {/* Quick Actions */}
@@ -180,6 +188,14 @@ const DashboardPage = () => {
           >
             <CalendarDays className="h-6 w-6 text-indigo-500" />
             <span className="text-xs">Tadbirlar</span>
+          </Button>
+          <Button
+            variant="outline"
+            className="h-auto flex-col gap-2 py-6"
+            onClick={() => router.push(`/${locale}/admin-secruty/announcements`)}
+          >
+            <Megaphone className="h-6 w-6 text-purple-500" />
+            <span className="text-xs">E'lonlar</span>
           </Button>
           <Button
             variant="outline"

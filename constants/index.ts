@@ -8,6 +8,7 @@ import {
   GaugeCircle,
   Home,
   MapPin,
+  Megaphone,
   MessageSquareMore,
   MonitorPlay,
   Settings2,
@@ -54,6 +55,11 @@ export const instructorNavLinks = [
     label: "Tadbirlar",
     route: "/admin-secruty/events",
     icon: MapPin,
+  },
+  {
+    label: "E'lonlar",
+    route: "/admin-secruty/announcements",
+    icon: Megaphone,
   },
   {
     label: "Display sahifa",

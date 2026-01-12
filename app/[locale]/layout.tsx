@@ -47,6 +47,7 @@ export default async function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body
         className={`${roboto.variable} ${spaceGrotesk.variable} overflow-x-hidden antialiased`}
+        suppressHydrationWarning
       >
         <NextIntlClientProvider>
           <ThemeProvider

@@ -458,3 +458,59 @@ export async function fetchEvents(): Promise<IEvent[]> {
 
   return result.data.map(transformEventToFrontend);
 }
+
+// ===========================================
+// Announcement API Functions
+// ===========================================
+
+interface BackendAnnouncement {
+  _id: string;
+  title: string;
+  content?: string;
+  isActive: boolean;
+  expiresAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface IAnnouncement {
+  id: string;
+  title: string;
+  content?: string;
+  isActive: boolean;
+  expiresAt?: string;
+  createdAt: string;
+}
+
+function transformAnnouncementToFrontend(announcement: BackendAnnouncement): IAnnouncement {
+  return {
+    id: announcement._id,
+    title: announcement.title,
+    content: announcement.content,
+    isActive: announcement.isActive,
+    expiresAt: announcement.expiresAt,
+    createdAt: announcement.createdAt,
+  };
+}
+
+/**
+ * Fetch all active announcements
+ */
+export async function fetchAnnouncements(): Promise<IAnnouncement[]> {
+  const response = await fetch(`${API_URL}/announcements?active=true`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch announcements: ${response.statusText}`);
+  }
+
+  const result: BackendResponse<BackendAnnouncement[]> = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.error || "Failed to fetch announcements");
+  }
+
+  return result.data.map(transformAnnouncementToFrontend);
+}
+
